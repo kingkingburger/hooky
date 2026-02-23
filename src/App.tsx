@@ -185,9 +185,11 @@ const App: FC = () => {
     // --- 이벤트 핸들러 ---
     const handleLayerPropChange = (prop: keyof TextLayer | keyof ImageLayer, value: any) => {
         if (selectedLayerIndex === null) return;
-        setLayers(layers.map((layer, index) =>
-            index === selectedLayerIndex ? { ...layer, [prop]: value } : layer
-        ));
+        setLayers(prev =>
+            prev.map((layer, index) =>
+                index === selectedLayerIndex ? { ...layer, [prop]: value } : layer
+            )
+        );
     };
 
     const addLayer = (type: 'text' | 'image') => {
@@ -322,8 +324,14 @@ const App: FC = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const pos = getMousePos(canvas, e);
-        handleLayerPropChange('x', pos.x - dragInfo.current.startX);
-        handleLayerPropChange('y', pos.y - dragInfo.current.startY);
+        const newX = pos.x - dragInfo.current.startX;
+        const newY = pos.y - dragInfo.current.startY;
+        const targetIndex = dragInfo.current.targetIndex;
+        setLayers(prev =>
+            prev.map((layer, index) =>
+                index === targetIndex ? { ...layer, x: newX, y: newY } : layer
+            )
+        );
     };
 
     const handleMouseUp = () => { dragInfo.current = { isDragging: false, targetIndex: null, startX: 0, startY: 0 }; };
