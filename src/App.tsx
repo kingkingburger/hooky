@@ -416,13 +416,12 @@ const App: FC = () => {
                     </ControlWrapper>
                 </aside>
 
-                <main className="flex-1 flex items-center justify-center p-8 bg-gray-800 overflow-auto">
-                    <div className="bg-white shadow-2xl" style={{ boxShadow: '0 0 80px rgba(0,0,0,0.5)' }}>
-                        <canvas ref={canvasRef} width={canvasSize.width} height={canvasSize.height}
-                                onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
-                                className="cursor-pointer" style={{ width: '100%', maxWidth: '1280px', height: 'auto' }}
-                        />
-                    </div>
+                <main className="flex-1 flex items-center justify-center p-8 bg-gray-800 overflow-hidden min-h-0">
+                    <canvas ref={canvasRef} width={canvasSize.width} height={canvasSize.height}
+                            onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
+                            className="cursor-pointer"
+                            style={{ width: '100%', maxHeight: '100%', aspectRatio: `${canvasSize.width} / ${canvasSize.height}`, boxShadow: '0 0 80px rgba(0,0,0,0.5)' }}
+                    />
                 </main>
             </div>
         </div>
